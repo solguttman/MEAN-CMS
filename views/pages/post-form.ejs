@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<div class="col-md-10">
+		<h1 class="col-md-10 page-header">
+			<%= title %>
+		</h1>
+	</div>
+	
+	<form  action="/app/posts/<%= post._id ? 'update' : 'new' %>" method="post">
+		<input type="hidden" name="id" value="<%= post._id %>">
+		
+		<div class="container-fluid col-md-10">
+			<div class="row">
+				<% if(message.length){ %>
+					<div class="col-md-12">
+						<div class="alert alert-success"><%= message %></div>
+					</div>
+				<% } %>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label for="">Post Name</label>
+					<input type="text" name="postName" class="form-control" placeholder="Post Name" value="<%= post.postName %>">
+				</div>
+				<div class="col-md-6">
+					<label for="">Post Slug</label>
+					<input type="text" name="postSlug" class="form-control" placeholder="Post Slug" value="<%= post.postSlug %>">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<label for="">Post content</label>
+					<textarea name="postContent" id="" cols="30" rows="10" class="form-control"><%= post.postContent %></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid col-md-2">
+			<div class="col-md-12">
+				<label for="">Post Start</label>
+				<input type="date" name="postStart" class="form-control" placeholder="Page Start" value="<%= post.postStart %>">
+			</div>
+			<div class="col-md-12">
+				<label for="">Post End</label>
+				<input type="date" name="postEnd" class="form-control" placeholder="Page End" value="<%= post.postEnd %>">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5">
+
+			</div>
+			<div class="col-md-2">
+				<label for=""></label>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+			</div>
+			<div class="col-md-5">
+
+			</div>
+		</div>
+	</form>
+
+	<% include ../partials/footer %>
+    
+</body>
+</html>

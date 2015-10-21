@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<div class="col-md-10">
+		<h1 class="col-md-10 page-header">
+			<%= title %>
+		</h1>
+	</div>
+	
+	<form  action="/app/pages/<%= page._id ? 'update' : 'new' %>" method="post">
+		<input type="hidden" name="id" value="<%= page._id %>">
+		
+		<div class="container-fluid col-md-10">
+			<div class="row">
+				<% if(message.length){ %>
+					<div class="col-md-12">
+						<div class="alert alert-success"><%= message %></div>
+					</div>
+				<% } %>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label for="">Page Name</label>
+					<input type="text" name="pageName" class="form-control" placeholder="Page Name" value="<%= page.pageName %>">
+				</div>
+				<div class="col-md-6">
+					<label for="">Page Slug</label>
+					<input type="text" name="pageSlug" class="form-control" placeholder="Page Slug" value="<%= page.pageSlug %>">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<label for="">Page content</label>
+					<textarea name="pageContent" id="editor" cols="30" rows="10" class="form-control"><%= page.pageContent %></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid col-md-2">
+			<div class="col-md-12">
+				<label for="">Page Start</label>
+				<input type="date" name="pageStart" class="form-control" placeholder="Page Start" value="<%= page.pageStart %>">
+			</div>
+			<div class="col-md-12">
+				<label for="">Page End</label>
+				<input type="date" name="pageEnd" class="form-control" placeholder="Page End" value="<%= page.pageEnd %>">
+			</div>
+			<% if(page.pageSlug){ %>
+			<div class="col-md-12">
+				<br>
+				<a href="/app/pages/preview/<%= page.pageSlug %>" class="btn btn-default btn-lg btn-block">Preview</a>
+			</div>
+			<% } %>
+		</div>
+		<div class="row">
+			<div class="col-md-5">
+
+			</div>
+			<div class="col-md-2">
+				<label for=""></label>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+			</div>
+			<div class="col-md-5">
+
+			</div>
+		</div>
+	</form>
+
+	<% include ../partials/footer %>
+    <script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>
+</body>
+</html>

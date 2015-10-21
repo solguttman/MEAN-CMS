@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<h1 class="page-header">
+		Post Preview 
+	</h1>
+	 
+	<div class="row">
+		<pre>
+			<code>
+				<%= JSON.stringify(post) %>
+			</code>
+		</pre>
+	</div>
+	
+	<% include ../partials/footer %>
+    
+</body>
+</html>

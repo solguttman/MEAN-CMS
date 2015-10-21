@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<h1 class="page-header">
+		Users
+		<a href="/app/users/new" class="pull-right btn btn-primary btn-lg">
+			<span class="glyphicon glyphicon-plus"></span>
+			New User
+		</a>
+	</h1>
+	
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Profile</th>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Logged In</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% users.forEach(function(user, i) { %>
+			
+				<tr>
+					<td>
+						<%= i + 1 %>
+					</td>
+					<td>
+						<% if(user.profile){ %>
+							<img src="/uploads/<%= user.profile %>" alt="" class="listing-profile">
+						<% } %>
+					</td>
+					<td>
+						<a href="/app/users/edit/<%= user._id %>"><%= user.username %></a>
+					</td>
+					<td>
+						<%= user.email %>
+					</td>
+					<td>
+						<%= user.logged %>
+					</td>
+					<td class="pull-right">
+						<a href="/app/users/edit/<%= user._id %>">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						&nbsp
+						<a href="/app/users/delete/<%= user._id %>">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+
+	<% include ../partials/footer %>
+    
+</body>
+</html>

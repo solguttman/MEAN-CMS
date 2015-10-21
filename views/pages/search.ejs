@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<h1 class="page-header">
+		Search 
+	</h1>
+	 
+	<div class="row">
+		<div class="alert alert-warning">
+			Showing <%= results.length %> result for "<%= searchTerm %>"
+		</div>
+		<% results.forEach(function(result){ %>
+			<div class="list-group">
+				<% if(result.username){ %>
+					<a href="/app/users/edit/<%= result._id %>" class="list-group-item">
+						<h4 class="list-group-item-heading">User</h4>
+						<p class="list-group-item-text"><%= result.username %></p>
+					</a>
+				<% } %>
+				<% if(result.pageName){ %>
+					<a href="/app/pages/edit/<%= result._id %>" class="list-group-item">
+						<h4 class="list-group-item-heading">Page</h4>
+						<p class="list-group-item-text"><%= result.pageName %></p>
+					</a>
+				<% } %>
+				<% if(result.auther){ %>
+					<a href="/app/posts/edit/<%= result._id %>" class="list-group-item">
+						<h4 class="list-group-item-heading">Post</h4>
+						<p class="list-group-item-text"><%= result.auther %></p>
+					</a>
+				<% } %>
+			</div>
+		<% }) %>
+	</div>
+	
+	<% include ../partials/footer %>
+    
+</body>
+</html>

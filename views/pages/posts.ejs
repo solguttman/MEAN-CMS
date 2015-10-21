@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<h1 class="page-header">
+		Posts
+		<a href="/app/posts/new" class="pull-right btn btn-primary btn-lg">
+			<span class="glyphicon glyphicon-plus"></span>
+			New Post
+		</a>
+	</h1>
+	
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Post Name</th>
+					<th>Post Slug</th>
+					<th>Active</th>
+					<th class="text-center">Post Preview</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% posts.forEach(function(post, i) { %>
+			
+				<tr>
+					<td>
+						<%= i + 1 %>
+					</td>
+					<td>
+						<a href="/app/posts/edit/<%= post._id %>"><%= post.postName %></a>
+					</td>
+					<td>
+						<a href="/app/posts/edit/<%= post._id %>"><%= post.postSlug %></a>
+					</td>
+					<td>
+						<%= post.active %>
+					</td>
+					<td class="text-center">
+						<a href="/app/posts/preview/<%= post.postSlug %>">
+							<span class="glyphicon glyphicon-eye-open"></span>
+						</a>
+					</td>
+					<td class="pull-right">
+						<a href="/app/posts/edit/<%= post._id %>">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						&nbsp
+						<a href="/app/posts/delete/<%= post._id %>">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+
+	<% include ../partials/footer %>
+    
+</body>
+</html>

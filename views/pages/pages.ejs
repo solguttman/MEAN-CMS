@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<h1 class="page-header">
+		Pages
+		<a href="/app/pages/new" class="pull-right btn btn-primary btn-lg">
+			<span class="glyphicon glyphicon-plus"></span>
+			New Page
+		</a>
+	</h1>
+	
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Page Name</th>
+					<th>Page Slug</th>
+					<th>Active</th>
+					<th class="text-center">Page Preview</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% pages.forEach(function(page, i) { %>
+			
+				<tr>
+					<td>
+						<%= i + 1 %>
+					</td>
+					<td>
+						<a href="/app/pages/edit/<%= page._id %>"><%= page.pageName %></a>
+					</td>
+					<td>
+						<a href="/app/pages/edit/<%= page._id %>"><%= page.pageSlug %></a>
+					</td>
+					<td>
+						<%= page.active %>
+					</td>
+					<td class="text-center">
+						<a href="/app/pages/preview/<%= page.pageSlug %>">
+							<span class="glyphicon glyphicon-eye-open"></span>
+						</a>
+					</td>
+					<td class="pull-right">
+						<a href="/app/pages/edit/<%= page._id %>">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						&nbsp
+						<a href="/app/pages/delete/<%= page._id %>">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+
+	<% include ../partials/footer %>
+    
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	
+	
+	<form  action="/app/users/<%= user._id ? 'update' : 'new' %>" method="post" enctype="multipart/form-data">
+		
+		<div class="col-md-10">
+			<h1 class="col-md-10 page-header">
+				<%= title %>
+			</h1>
+		</div>
+		
+		<input type="hidden" name="id" value="<%= user._id %>">
+		<input type="hidden" name="profileName" value="<%= user.profile %>">
+		
+		<div class="container-fluid col-md-10">
+			<div class="row">
+				<% if(message.length){ %>
+					<div class="col-md-12">
+						<div class="alert alert-success"><%= message %></div>
+					</div>
+				<% } %>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label for="">First Name</label>
+					<input type="text" name="firstName" class="form-control" placeholder="First name" value="<%= user.firstName %>">
+				</div>
+				<div class="col-md-4">
+					<label for="">Middle Name</label>
+					<input type="text" name="middleName" class="form-control" placeholder="Middle name" value="<%= user.middleName %>">
+				</div>
+				<div class="col-md-4">
+					<label for="">Last Name</label>
+					<input type="text" name="lastName" class="form-control" placeholder="Last name" value="<%= user.lastName %>">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label for="">Email</label>
+					<input type="email" name="email" class="form-control" placeholder="Email" value="<%= user.email %>">
+				</div>
+				<div class="col-md-4">
+					<label for="">Phone</label>
+					<input type="phone" name="phone" class="form-control" placeholder="Phone" value="<%= user.phone %>">
+				</div>
+				<div class="col-md-4">
+					<label for="">Fax</label>
+					<input type="phone" name="fax" class="form-control" placeholder="Fax" value="<%= user.fax %>">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label for=""><%= user.profile ? 'Change' : 'User' %> Profile</label>
+					<input type="file" name="profile" class="form-control" placeholder="Profile">
+				</div>
+				<div class="col-md-4">
+					<label for="">Username</label>
+					<input type="text" name="username" class="form-control" placeholder="Username" value="<%= user.username %>">
+				</div>
+				<div class="col-md-4">
+					<label for="">Password</label>
+					<input type="password" name="password" class="form-control" placeholder="Password">
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid col-md-2">
+			<% if(user.profile){ %>
+				<img src="/uploads/<%= user.profile %>"  class="img-responsive img-thumbnail">
+			<% } %>
+		</div>
+		<div class="row">
+			<div class="col-md-5">
+
+			</div>
+			<div class="col-md-2">
+				<label for=""></label>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+			</div>
+			<div class="col-md-5">
+
+			</div>
+		</div>
+	</form>
+
+	<% include ../partials/footer %>
+    
+</body>
+</html>
