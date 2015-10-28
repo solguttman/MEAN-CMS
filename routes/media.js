@@ -20,7 +20,8 @@ router.use(logged);
 
 router.get('/', function(req, res, next) {
 	
-	var images = [],
+	var isLayer = req.query.layer,
+		images = [],
 		path = 'public/uploads';
 	
 	fs.readdir(path,function(err,files){
@@ -34,7 +35,8 @@ router.get('/', function(req, res, next) {
 		}
 		
 		res.render('pages/media',{
-			images:images
+			images:images,
+			layer : isLayer
 		});
 		
 	});

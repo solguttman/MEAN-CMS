@@ -1,15 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <% include ../partials/head %>
-</head>
+<% if(!layer){ %>
 
-	<% include ../partials/header %>
-	 
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<% include ../partials/head %>
+	</head>
+
+		<% include ../partials/header %>
+		
+<% } %>	 
+	
+	<% if(layer){ %>	
+		<link rel="stylesheet" href="/css/modal.css">
+	<% } %>	
+		
 	<div class="row">
 			
 		<h1 class="page-header">
-			Media Library
+			Media Library 
 			<a href="/app/media/new" class="pull-right btn btn-primary btn-lg">
 				<span class="glyphicon glyphicon-plus"></span>
 				Add New
@@ -18,7 +26,7 @@
 			<div class="row">
 				<% images.forEach(function(img){ %>
 					<div class="col-xs-6 col-sm-4 col-md-2 col-lg-1 image-thumbnail">
-						<a href="/app/media/<%= img %>" class="thumbnail">
+						<a href="/app/media/<%= img %>" class="thumbnail" data-dismiss="modal">
 							<img src="/uploads/<%= img %>"/>
 						</a>
 					</div>
@@ -26,7 +34,11 @@
 			</div>
 	</div>
 	
-	<% include ../partials/footer %>
-    
-</body>
-</html>
+<% if(!layer){ %>
+	
+		<% include ../partials/footer %>
+
+	</body>
+	</html>
+
+<% } %>	

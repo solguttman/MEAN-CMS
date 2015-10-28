@@ -15,7 +15,9 @@
 			<form action="/app/media" method="post" <% if(imageData.new){ %> enctype="multipart/form-data" <% } %>>
 				<div class="col-md-6">
 					<% if(imageData.new){ %>
-						<input type="file" name="newImage">
+						<label class="btn btn-default btn-file">	
+							<input type="file" name="newImage">
+						</label>	
 					<% }else{ %>
 						<img src="/uploads/<%= imageData.image %>" alt="" class="img-thumbnail img-responsive">
 					<% } %>

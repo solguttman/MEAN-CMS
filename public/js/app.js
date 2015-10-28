@@ -1,6 +1,6 @@
-var addImage = function(){
+var addImage = function(image){
 	if(typeof CKEDITOR !== 'undefined'){		
-		CKEDITOR.instances.editor.insertHtml('<img src="http://static.bhphoto.com/images/logo_m.jpg">');
+		CKEDITOR.instances.editor.insertHtml('<img src="'+image+'">');
 	}
 };
 
@@ -43,6 +43,19 @@ $(document).ready(function(){
 				$(this.el).find('span').text(Math.round(to));
 			}
 		});
+	}
+	
+});
+
+$(document).on('click','.modal a', function(){
+	var $this = $(this),
+		$modalContant = $('.modal-content'),
+		link = $this.attr('href'),
+		image = $this.find('img').attr('src');
+	
+	if(image){
+		addImage(image);
+		return false;
 	}
 	
 });

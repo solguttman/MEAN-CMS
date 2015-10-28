@@ -68,7 +68,7 @@
 			
 			<div class="col-md-12">
 				<label for=""></label>
-				<button type="button" class="btn btn-default form-control" onclick="addImage()"><span class="glyphicon glyphicon-picture"></span> Add Image</button>
+				<a href="/app/media?layer=true" type="button" class="btn btn-default form-control" data-toggle="modal" data-target="#media"><span class="glyphicon glyphicon-picture"></span> Add Image</a>
 			</div>
 			<% if(page.slug){ %>
 			<div class="col-md-12">
@@ -90,7 +90,28 @@
 			</div>
 		</div>
 	</form>
+	
+	<!-- Modal -->
+	<div id="media" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
 
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+					<p>Some text in the modal.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
 	<% include ../partials/footer %>
     <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
 </body>
