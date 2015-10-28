@@ -3,17 +3,17 @@ var router = express.Router();
 var mongojs = require('mongojs');
 var logged = require('../models/isLogged');
 
-var db = mongojs('CMS',['pages']);
+var db = mongojs('CMS',['pages','filters']);
 
 var isActiveDate = function(page){
 	var now = Date.now();
 	
-	if(page.pageStart && page.pageEnd){
-		return  (now > Date.parse(page.pageStart) && now < Date.parse(page.pageEnd));
-	}else if(page.pageStart && !page.pageEnd){
-		return  now > Date.parse(page.pageStart);
-	}else if(!page.pageStart && page.pageEnd){
-		return  now < Date.parse(page.pageEnd);
+	if(page.start && page.end){
+		return  (now > Date.parse(page.start) && now < Date.parse(page.end));
+	}else if(page.start && !page.end){
+		return  now > Date.parse(page.start);
+	}else if(!page.start && page.end){
+		return  now < Date.parse(page.end);
 	}else{
 		return  true;	
 	}
@@ -21,48 +21,86 @@ var isActiveDate = function(page){
 
 router.use(logged);
 
+router.use(function(req,res,next){
+	global.type = req.query.type || req.body.type;
+	
+	if(!global.type){
+		return res.redirect('/app');
+	}
+	
+	next();
+	
+});
+
 /* GET pages listing. */
 router.get('/', function(req, res, next) {
-	db.pages.find(function (err, pages) {
+	
+	var offset = req.query.offset,
+		sort = req.query.sort,
+		limit = 5,
+		total;//req.query.limit;
+	
+	db.pages.count({type:type},function(err, data){
+		total = data;
 		
-		pages.forEach(function(page){
-			page.active = isActiveDate(page);
-		});
-		
-		res.render('pages/pages', {
-			pages:pages
+		db.pages.find({type:type}).limit(limit).skip(offset,function (err, pages) {
+			
+			pages.forEach(function(page){
+				page.active = isActiveDate(page);
+			});
+			
+			res.render('pages/pages', {
+				pages:pages,
+				total:total,
+				totalPages:Math.ceil(total/limit),
+				limit:Number(limit) || 0,
+				offset:Number(offset) || 0,
+				sort:sort
+			});
 		});
 	});
+	
 });
 
 router.get('/new',function(req, res){
-	res.render('pages/page-form', {
-		title:'New Page',
-		message:req.flash('message'),
-		page: {}
+
+	db.filters.find(function(err,doc){
+		res.render('pages/page-form', {
+			title:'New '+ global.type,
+			filters:doc,
+			message:req.flash('message'),
+			page: {}
+		});
 	});
+	
 });
 
 router.post('/new',function(req, res){
 	var page = req.body;
 	
-	db.pages.insert(page,function(){
-		res.redirect('/app/pages');
+	db.pages.insert(page,function(err,doc){
+		res.redirect('/app/pages/edit/' + doc._id + '?type=' + global.type);
 	});
+	
 });
 
 router.get('/edit/:id', function(req, res){
 	var id = req.params.id;
+	
 	if(mongojs.ObjectId.isValid(id)){
-		db.pages.findOne({_id:mongojs.ObjectId(id)},function(err,doc){
+		db.pages.findOne({_id:mongojs.ObjectId(id)},function(err,page){
 			if(err) return err;
-			if(doc){
+			if(page){
 				
-				res.render('pages/page-form', {
-					page:doc,
-					title: 'Edit ' + doc.pageName,
-					message : req.flash('message')
+				db.filters.find(function(err,doc){
+					res.render('pages/page-form', {
+						page:page,
+						filters:doc,
+						title: 'Edit ' + page.name,
+						message : req.flash('message')
+					});
 				});
+				
 			}else{
 				res.redirect('back');
 			}
@@ -100,11 +138,11 @@ router.get('/delete/:id',function(req, res){
 
 router.get('/preview/*',function(req,res){
 	
-	var url = req.url.split('/')[2];
+	var url = req.path.split('/').pop();
 	
 	if(url !== ''){
 	
-		db.pages.findOne({pageSlug:url},function(err,doc){
+		db.pages.findOne({slug:url},function(err,doc){
 			if(doc && isActiveDate(doc)){
 				res.render('pages/page-preview',{
 					page:doc

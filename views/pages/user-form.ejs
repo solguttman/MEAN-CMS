@@ -10,11 +10,9 @@
 	
 	<form  action="/app/users/<%= user._id ? 'update' : 'new' %>" method="post" enctype="multipart/form-data">
 		
-		<div class="col-md-10">
-			<h1 class="col-md-10 page-header">
-				<%= title %>
-			</h1>
-		</div>
+		<h1 class="page-header">
+			<%= title %>
+		</h1>
 		
 		<input type="hidden" name="id" value="<%= user._id %>">
 		<input type="hidden" name="profileName" value="<%= user.profile %>">

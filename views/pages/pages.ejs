@@ -6,11 +6,11 @@
 
 	<% include ../partials/header %>
 
-	<h1 class="page-header">
-		Pages
-		<a href="/app/pages/new" class="pull-right btn btn-primary btn-lg">
+	<h1 class="page-header text-capitalize">
+		<%= type %>
+		<a href="/app/pages/new?type=<%= type %>" class="pull-right btn btn-primary btn-lg">
 			<span class="glyphicon glyphicon-plus"></span>
-			New Page
+			New <%= type %>
 		</a>
 	</h1>
 	
@@ -31,28 +31,28 @@
 			
 				<tr>
 					<td>
-						<%= i + 1 %>
+						<%= i + 1 + offset %>
 					</td>
 					<td>
-						<a href="/app/pages/edit/<%= page._id %>"><%= page.pageName %></a>
+						<a href="/app/pages/edit/<%= page._id %>?type=<%= type %>"><%= page.name %></a>
 					</td>
 					<td>
-						<a href="/app/pages/edit/<%= page._id %>"><%= page.pageSlug %></a>
+						<a href="/app/pages/edit/<%= page._id %>?type=<%= type %>"><%= page.slug %></a>
 					</td>
 					<td>
 						<%= page.active %>
 					</td>
 					<td class="text-center">
-						<a href="/app/pages/preview/<%= page.pageSlug %>">
+						<a href="/app/pages/preview/<%= page.slug %>?type=<%= type %>">
 							<span class="glyphicon glyphicon-eye-open"></span>
 						</a>
 					</td>
 					<td class="pull-right">
-						<a href="/app/pages/edit/<%= page._id %>">
+						<a href="/app/pages/edit/<%= page._id %>?type=<%= type %>">
 							<span class="glyphicon glyphicon-edit"></span>
 						</a>
 						&nbsp
-						<a href="/app/pages/delete/<%= page._id %>">
+						<a href="/app/pages/delete/<%= page._id %>?type=<%= type %>">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 					</td>
@@ -62,7 +62,31 @@
 			</tbody>
 		</table>
 	</div>
-
+	<% if(total > limit){ %>
+		<nav>
+			<ul class="pagination">
+				<% if(offset > 0){ %>
+					<li>
+						<a href="/app/pages?type=<%= type %>&offset=<%= offset - limit %>" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+				<% } %>
+				
+				<% for(i = 0; i < totalPages; i++){ %>
+					<li class="<%= (offset == (i * limit) || (!offset && i == 0 ) ) ? 'active' : '' %>"><a href="/app/pages?type=<%= type %>&offset=<%= i * limit %>"><%= i + 1 %></a></li>
+				<% } %>
+				
+				<% if(offset + limit < total){ %>
+					<li>
+						<a href="/app/pages?type=<%= type %>&offset=<%= offset + limit %>" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				<% } %>
+			</ul>
+		</nav>
+	<% } %>
 	<% include ../partials/footer %>
     
 </body>

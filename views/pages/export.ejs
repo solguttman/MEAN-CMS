@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+	 
+	<div class="row">
+			
+		<h1 class="page-header">
+			Export
+		</h1>
+		
+		<table id="pagesTable" class="table table-bordered">
+			<tr>
+				<% keys.forEach(function(key){ %>
+					<th><%= key %></th>
+				<% }) %>
+			</tr>
+			<% data.forEach(function(page){ %>
+				<tr>
+					<% for(p in page){ %>
+						<td><%= page[p] %></td>
+					<% } %>
+				</tr>
+			<% }) %>
+		</table>
+		
+		<a href="/app/export/download" class="btn btn-success" id="download-table">Download</a>
+		
+	</div>
+	
+	<% include ../partials/footer %>
+    
+</body>
+</html>

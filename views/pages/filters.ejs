@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+	 
+	<div class="row">
+			
+		<h1 class="page-header">
+			Add Filters 
+		</h1>
+		<% filters.forEach(function(filter){ %>
+			<div class="col-md-4">
+				<div class="col-md-8">
+					<h3><%= filter.niceName %></h3>
+					<form action="/app/filters" method="post" class="form-inline">
+						<input type="hidden" name="type" value="<%= filter.name %>">
+						<div class="form-group">
+							<input type="text" name="filter" class="form-control"/>
+						</div>
+						<div class="form-group">
+							<input type="submit" name="" id="" class="form-control btn btn-primary"/>
+						</div>
+					</form>
+				</div>
+				<div class="row"></div>
+				<br>
+				<div class="table-responsive col-md-8">
+					<table class="table table-striped">
+					<% filter.list.forEach(function(type){ %>
+						<tr>
+							<td><%= type.name %></td>
+							<td><a href="/app/filters/delete/<%= filter.name %>/<%= type.name %>" class="pull-right"><span class="glyphicon glyphicon-trash"></span></a></td>
+						</tr>	
+					<% }) %>
+					</table>	
+				</div>
+			</div>	
+		<% }) %>
+		
+	</div>
+	
+	<% include ../partials/footer %>
+    
+</body>
+</html>

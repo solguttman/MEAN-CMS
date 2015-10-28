@@ -4,7 +4,17 @@ var mongojs = require('mongojs');
 var bCrypt = require('bcrypt-nodejs');
 var logged = require('../models/isLogged');
 var multer  = require('multer');
-var upload = multer({ dest: 'public/uploads/' });
+
+var storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, 'public/uploads/');
+	},
+	filename: function (req, file, cb) {
+		cb(null, Date.now() +'-'+ file.originalname);
+	}
+});
+
+var upload = multer({ storage: storage });
 
 var db = mongojs('CMS',['users']);
 
@@ -17,10 +27,11 @@ router.use(logged);
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 	db.users.find(function (err, docs) {
+		
 		res.render('pages/users', {
-			logged : req.session.logged,
 			users:docs
 		});
+		
 	});
 });
 

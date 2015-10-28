@@ -6,14 +6,13 @@
 
 	<% include ../partials/header %>
 
-	<div class="col-md-10">
-		<h1 class="col-md-10 page-header">
-			<%= title %>
-		</h1>
-	</div>
+	<h1 class="page-header">
+		<%= title %>
+	</h1>
 	
 	<form  action="/app/pages/<%= page._id ? 'update' : 'new' %>" method="post">
 		<input type="hidden" name="id" value="<%= page._id %>">
+		<input type="hidden" name="type" value="<%= type %>">
 		
 		<div class="container-fluid col-md-10">
 			<div class="row">
@@ -26,33 +25,55 @@
 			<div class="row">
 				<div class="col-md-6">
 					<label for="">Page Name</label>
-					<input type="text" name="pageName" class="form-control" placeholder="Page Name" value="<%= page.pageName %>">
+					<input type="text" name="name" id="pageName" class="form-control" placeholder="Page Name" value="<%= page.name %>">
 				</div>
 				<div class="col-md-6">
 					<label for="">Page Slug</label>
-					<input type="text" name="pageSlug" class="form-control" placeholder="Page Slug" value="<%= page.pageSlug %>">
+					<input type="text" name="slug" id="pageSlug" class="form-control" placeholder="Page Slug" value="<%= page.slug %>">
 				</div>
 			</div>
+			<br>
 			<div class="row">
 				<div class="col-md-12">
 					<label for="">Page content</label>
-					<textarea name="pageContent" id="editor" cols="30" rows="10" class="form-control"><%= page.pageContent %></textarea>
+					<textarea name="content" id="editor" cols="30" rows="10" class="form-control"><%= page.content %></textarea>
 				</div>
 			</div>
 		</div>
 		<div class="container-fluid col-md-2">
 			<div class="col-md-12">
 				<label for="">Page Start</label>
-				<input type="date" name="pageStart" class="form-control" placeholder="Page Start" value="<%= page.pageStart %>">
+				<input type="date" name="start" class="form-control" placeholder="Page Start" value="<%= page.start %>">
 			</div>
 			<div class="col-md-12">
 				<label for="">Page End</label>
-				<input type="date" name="pageEnd" class="form-control" placeholder="Page End" value="<%= page.pageEnd %>">
+				<input type="date" name="end" class="form-control" placeholder="Page End" value="<%= page.end %>">
 			</div>
-			<% if(page.pageSlug){ %>
+			
+			<% filters.forEach(function(filter){ %>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<label for=""><%= filter.niceName %></label>
+						<select name="<%= filter.name %>" id="" class="form-control" value="<%= page[filter.name] %>">
+							<option value=""></option>
+							<% filter.list.forEach(function(li){ %>
+							<option value="<%= li.name %>" <%= page[filter.name] === li.name ? 'selected' : '' %>><%= li.name %></option>
+							<% }) %>
+						</select>	
+					</div>
+				</div>
+			
+			<% }) %>
+			
+			<div class="col-md-12">
+				<label for=""></label>
+				<button type="button" class="btn btn-default form-control" onclick="addImage()"><span class="glyphicon glyphicon-picture"></span> Add Image</button>
+			</div>
+			<% if(page.slug){ %>
 			<div class="col-md-12">
 				<br>
-				<a href="/app/pages/preview/<%= page.pageSlug %>" class="btn btn-default btn-lg btn-block">Preview</a>
+				<a href="/app/pages/preview/<%= page.slug %>?type=<%= type %>" class="btn btn-default btn-lg btn-block">Preview</a>
 			</div>
 			<% } %>
 		</div>
@@ -71,6 +92,6 @@
 	</form>
 
 	<% include ../partials/footer %>
-    <script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+	 
+	<div class="row">
+			
+		<h1 class="page-header">
+			Media Library Edit
+		</h1>
+		<div class="row">
+			<form action="/app/media" method="post" <% if(imageData.new){ %> enctype="multipart/form-data" <% } %>>
+				<div class="col-md-6">
+					<% if(imageData.new){ %>
+						<input type="file" name="newImage">
+					<% }else{ %>
+						<img src="/uploads/<%= imageData.image %>" alt="" class="img-thumbnail img-responsive">
+					<% } %>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-6">
+							<label for="">Name</label>
+							<input class="form-control" name="name" value="<%= imageData.name %>"></input>
+							<input type="hidden" name="origName" value="<%= imageData.name %>">
+							<input type="hidden" name="fullImageName" value="<%= imageData.image %>">
+						</div>
+						<div class="col-md-6">
+							<label for="">Rotate</label>
+							<input class="form-control" name="rotate" value=""></input>
+						</div>
+						<div class="col-md-6">
+							<label for="">Width</label>
+							<input class="form-control" name="width" value="<%= imageData.width %>"></input>
+						</div>
+						<div class="col-md-6">
+							<label for="">Height</label>
+							<input class="form-control" name="height" value="<%= imageData.height %>"></input>
+						</div>
+					</div>
+
+					<div class="submit-wrapper">
+						<input type="submit" class="btn-block btn btn-primary" value="Update">
+						<a href="/app/media/delete/<%= imageData.image %>" class="btn-block btn btn-danger">Delete</a>
+					</div>
+
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<% include ../partials/footer %>
+    
+</body>
+</html>

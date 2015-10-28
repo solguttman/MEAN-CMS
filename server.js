@@ -9,13 +9,16 @@ var flash = require('express-flash');
 var app = express();
 
 var mongojs = require('mongojs');
-var db = mongojs('CMS',['users','posts','pages']);
+var db = mongojs('CMS',['users','pages']);
 
 var dashboard = require('./routes/dashboard');
 var users = require('./routes/users');
 var pages = require('./routes/pages');
-var posts = require('./routes/posts');
 var search = require('./routes/search');
+var filters = require('./routes/filters');
+var messages = require('./routes/messages');
+var exportData = require('./routes/export');
+var media = require('./routes/media');
 
 var isValidPassword = function(user, password){
         return bCrypt.compareSync(password, user.password);
@@ -40,14 +43,21 @@ app.use(function(req,res,next){
 	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
 	res.header('Expires', '-1');
 	res.header('Pragma', 'no-cache');
+	var activePath = req.query.type ? req.query.type :  req.path.split('/')[2];
+	global.profile = req.session.user;
+	global.path = activePath || 'dashboard';
+	
 	next();
 });
 
 app.use('/app', dashboard);
 app.use('/app/users', users);
 app.use('/app/pages', pages);
-app.use('/app/posts', posts);
 app.use('/app/search', search);
+app.use('/app/filters', filters);
+app.use('/app/messages', messages);
+app.use('/app/export', exportData);
+app.use('/app/media', media);
 
 app.get('/',function(req, res){
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -107,6 +117,6 @@ app.get('/logout',function(req, res){
 	
 });
 
-app.listen(8080);
+app.listen(80);
 
 console.log('server running on port 8080');

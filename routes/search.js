@@ -7,19 +7,22 @@ var db = mongojs('CMS',['users','pages','posts']);
 
 router.use(logged);
 
+router.get('/',function(req,res){
+	res.redirect( 'back' );
+});
+
 router.post('/',function(req,res){
 	res.redirect('/app/search/'+req.body.search );
 });
 
 router.get('/:term', function(req, res, next) {
 	var term = req.params.term,
-		results = [],
-		test = [];
+		results = [];
 	
 	
  	db.users.find({
 		$or:[
-			{'username': new RegExp( term , 'g' )}
+			{'username': new RegExp( term , 'i' )}
 		]
 	},function(err,users){
 		
@@ -29,8 +32,8 @@ router.get('/:term', function(req, res, next) {
 		
 		db.pages.find({
 			$or:[
-				{'pageName': new RegExp( term , 'g' )},
-				{'pageSlug': new RegExp( term , 'g' )}
+				{'name': new RegExp( term , 'i' )},
+				{'slug': new RegExp( term , 'i' )}
 			]
 		},function(err,pages){
 			
@@ -38,21 +41,10 @@ router.get('/:term', function(req, res, next) {
 				results.push(page);
 			});
 			
-			db.posts.find({
-				$or:[
-					{'auther': new RegExp( term , 'g' )}
-				]
-			},function(err,posts){
 				
-				posts.forEach(function(post){
-					results.push(post);
-				});
-				
-				res.render('pages/search', {
-					searchTerm:term,
-					results:results
-				});
-				
+			res.render('pages/search', {
+				searchTerm:term,
+				results:results
 			});
 			
 		});

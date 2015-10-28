@@ -22,16 +22,10 @@
 						<p class="list-group-item-text"><%= result.username %></p>
 					</a>
 				<% } %>
-				<% if(result.pageName){ %>
-					<a href="/app/pages/edit/<%= result._id %>" class="list-group-item">
-						<h4 class="list-group-item-heading">Page</h4>
-						<p class="list-group-item-text"><%= result.pageName %></p>
-					</a>
-				<% } %>
-				<% if(result.auther){ %>
-					<a href="/app/posts/edit/<%= result._id %>" class="list-group-item">
-						<h4 class="list-group-item-heading">Post</h4>
-						<p class="list-group-item-text"><%= result.auther %></p>
+				<% if(result.name){ %>
+					<a href="/app/pages/edit/<%= result._id %>?type=<%= result.type %>" class="list-group-item">
+						<h4 class="list-group-item-heading"><%= result.type %></h4>
+						<p class="list-group-item-text"><%= result.name %></p>
 					</a>
 				<% } %>
 			</div>
