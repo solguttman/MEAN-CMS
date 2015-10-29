@@ -3,12 +3,12 @@ body,html{
 	color: #595959;
 	background: #dedede;
 }
-.navbar{
-	border-radius: 0;
-	margin-bottom:0;
+.main .row{
+	padding: 0;
+	margin: 0;
 }
-.top-nav{
-	padding:0 10px;
+.main{
+	padding: 10px 10px 0 10px;
 }
 .glyphicon{
 	font-size:18px;
@@ -19,7 +19,6 @@ body,html{
 .table-responsive .table td{
 	vertical-align:middle;
 }
-
 .listing-profile{
 	height:40px;
 	border-radius:50%;
@@ -31,29 +30,21 @@ body,html{
 form label{
 	margin-top:10px;
 }
-
-/* remove outer padding */
-.main .row{
-	padding: 0;
-	margin: 0;
+.navbar{
+	border-radius: 0;
+	margin-bottom:0;
 }
-
-/*Remove rounded coners*/
-
+.top-nav{
+	padding:0 10px;
+}
 nav.sidebar.navbar {
 	border-radius: 0;
 }
-
 nav.sidebar, .main{
 	-webkit-transition: margin 200ms ease-out;
 	-moz-transition: margin 200ms ease-out;
 	-o-transition: margin 200ms ease-out;
 	transition: margin 200ms ease-out;
-}
-
-/* Add gap to nav and right windows.*/
-.main{
-	padding: 10px 10px 0 10px;
 }
 .image-thumbnail{
 	cursor:pointer;
@@ -64,8 +55,15 @@ nav.sidebar, .main{
 .image-thumbnail input:checked + a{
 	border:2px solid #337ab7;
 }
-/* .....NavBar: Icon only with coloring/layout.....*/
-
+.image-thumbnail .thumbnail{
+	height:100px;
+	overflow:hidden;
+}
+.page-add-image{
+	position:relative;
+	top:-4px;
+	right: -15px;
+}
 .modal{
 	z-index:9999;
 }

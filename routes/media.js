@@ -83,35 +83,36 @@ router.get('/:img',function(req, res){
 
 router.post('/',upload.single('newImage'),function(req, res){
 	
-	if(req.file){
-		res.redirect('/app/media/'+req.file.filename);
-	}else{    
+	var img = req.body.fullImageName || req.file.filename,
+		path = './public/uploads/' + img,
+		ext = img.split('.').pop(),
+		newImageName = Date.now() +'-'+ req.body.name +'.'+ ext,
+		newPath = './public/uploads/' + newImageName,
+		width,
+		height;
 	
-	 	var img = req.body.fullImageName,
-			ext = img.split('.').pop(),
-			path = './public/uploads/' + img,
-			newPath = './public/uploads/' + Date.now() +'-'+ req.body.name +'.'+ ext,
-			imageData = {
-				image:img
-			};
+	lwip.open(path,function(err, image){
+			
+		width = req.body.width ? req.body.width : image.width();
+		height = req.body.height ? req.body.height : image.height();
 
+		image.batch()
+			.resize(Number(width),Number(height))
+			.rotate(Number( req.body.rotate ), 'white')
+			.writeFile(path, function(err, image){
 
-		lwip.open(path,function(err, image){
+				if(err)console.log(err);
+				if(req.body.name){
+					fs.renameSync(path,newPath);
+					res.redirect('/app/media/'+newImageName);
+				}else{
+					res.redirect('/app/media/'+img);
+				}
+                 
+			});
 
-			image.batch()
-				.resize(Number(req.body.width), Number(req.body.height))
-				.rotate(Number(req.body.rotate), 'white')
-				.writeFile(path,function(err,image){
-					if(err)console.log(err);
-					if(req.body.origName !== req.body.name){
-						fs.renameSync(path,newPath);
-					}
-
-					res.redirect('/app/media');
-				});
-
-		}); 
-	}
+	});
+	
 }); 
 
 router.get('/delete/:img',function(req, res){

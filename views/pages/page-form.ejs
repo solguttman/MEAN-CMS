@@ -35,8 +35,15 @@
 			<br>
 			<div class="row">
 				<div class="col-md-12">
-					<label for="">Page content</label>
-					<textarea name="content" id="editor" cols="30" rows="10" class="form-control"><%= page.content %></textarea>
+					<div class="row">
+						<label for="">Page content</label>
+						<div class="col-md-2 pull-right page-add-image">
+							<a href="/app/media?layer=true" type="button" class="btn btn-default form-control" data-toggle="modal" data-target="#media"><span class="glyphicon glyphicon-picture"></span> Add Image</a>
+						</div>
+					</div>
+					<div class="row">
+						<textarea name="content" id="editor" cols="30" rows="10" class="form-control"><%= page.content %></textarea>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -66,10 +73,6 @@
 			
 			<% }) %>
 			
-			<div class="col-md-12">
-				<label for=""></label>
-				<a href="/app/media?layer=true" type="button" class="btn btn-default form-control" data-toggle="modal" data-target="#media"><span class="glyphicon glyphicon-picture"></span> Add Image</a>
-			</div>
 			<% if(page.slug){ %>
 			<div class="col-md-12">
 				<br>
