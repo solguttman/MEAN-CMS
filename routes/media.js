@@ -14,14 +14,26 @@ var storage = multer.diskStorage({
 	}
 });
 
+var fileExists = function(filePath){
+    try{
+        return fs.statSync(filePath).isFile();
+    }catch (err){
+        return false;
+    }
+};
+
 var upload = multer({ storage: storage });
 
 router.use(logged);
 
+router.use(function(req,res,next){
+	global.layer = req.query.layer;
+	next();
+});
+
 router.get('/', function(req, res, next) {
 	
-	var isLayer = req.query.layer,
-		images = [],
+	var images = [],
 		path = 'public/uploads';
 	
 	fs.readdir(path,function(err,files){
@@ -35,8 +47,7 @@ router.get('/', function(req, res, next) {
 		}
 		
 		res.render('pages/media',{
-			images:images,
-			layer : isLayer
+			images:images
 		});
 		
 	});
@@ -55,6 +66,7 @@ router.get('/:img',function(req, res){
 	
 	var img = req.params.img,
 		path = './public/uploads/' + img,
+		isFile = fileExists(path),
 		name = img.split('-'), 
 		imageData = {
 			image:img
@@ -68,9 +80,16 @@ router.get('/:img',function(req, res){
 	
 	imageData.name = name;	
 	
+	if(!isFile){
+		return res.redirect('back');
+	}
+	
 	lwip.open(path,function(err,image){
-		if(err) console.log(err);
-		
+		if(err){
+			console.log(err);
+			return res.redirect('back');
+		} 
+		 
 		imageData.width = image.width();
 		imageData.height = image.height();
 		
@@ -83,6 +102,10 @@ router.get('/:img',function(req, res){
 
 router.post('/',upload.single('newImage'),function(req, res){
 	
+	if(!req.body.fullImageName && !req.file){
+		return res.redirect('back');
+	}
+	
 	var img = req.body.fullImageName || req.file.filename,
 		path = './public/uploads/' + img,
 		ext = img.split('.').pop(),
@@ -92,7 +115,12 @@ router.post('/',upload.single('newImage'),function(req, res){
 		height;
 	
 	lwip.open(path,function(err, image){
-			
+		if(err){
+			console.log(err);
+			return res.redirect('back');
+		} 
+		
+		
 		width = req.body.width ? req.body.width : image.width();
 		height = req.body.height ? req.body.height : image.height();
 

@@ -1,3 +1,4 @@
+<% if(!layer){ %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
 </head>
 
 	<% include ../partials/header %>
-	 
+<% } %>	 	 
 	<div class="row">
 			
 		<h1 class="page-header">
@@ -32,7 +33,13 @@
 						</div>
 						<div class="col-md-6">
 							<label for="">Rotate</label>
-							<input class="form-control" name="rotate" value=""></input>
+							<select class="form-control" name="rotate" value="">
+								<option value=""></option>
+								<option value="90">90</option>
+								<option value="180">180</option>
+								<option value="270">270</option>
+								<option value="360">360</option>
+							</select>
 						</div>
 						<div class="col-md-6">
 							<label for="">Width</label>
@@ -53,8 +60,9 @@
 			</form>
 		</div>
 	</div>
-	
+<% if(!layer){ %>	
 	<% include ../partials/footer %>
     
 </body>
 </html>
+<% } %>	

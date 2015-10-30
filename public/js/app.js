@@ -51,10 +51,17 @@ $(document).on('click','.modal a', function(){
 	var $this = $(this),
 		$modalContant = $('.modal-content'),
 		link = $this.attr('href'),
-		image = $this.find('img').attr('src');
+		image = $this.find('img').attr('src'),
+		newData;
 	
 	if(image){
 		addImage(image);
+		return false;
+	}else{
+		$.get(link + '?layer=true',function(data){
+			$modalContant.html(data);
+		});
+		
 		return false;
 	}
 	
