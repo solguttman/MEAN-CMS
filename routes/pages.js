@@ -79,6 +79,8 @@ router.post('/new',function(req, res){
 	var page = req.body;
 	
 	db.pages.insert(page,function(err,doc){
+		var socket = req.app.get('socket');
+		socket.emit('new',doc.type);
 		res.redirect('/app/pages/edit/' + doc._id + '?type=' + global.type);
 	});
 	
@@ -128,8 +130,15 @@ router.post('/update',function(req,res){
 router.get('/delete/:id',function(req, res){
 	var id = req.params.id;
 	if(mongojs.ObjectId.isValid(id)){
-		db.pages.remove({_id:mongojs.ObjectId(id)},function(err,doc){
-			res.redirect('back');
+		db.pages.findOne({_id:mongojs.ObjectId(id)},function(err,doc){	
+			
+			db.pages.remove({_id:mongojs.ObjectId(id)},function(err,status){
+			
+				var socket = req.app.get('socket');
+				socket.emit('delete',doc.type);
+				res.redirect('back');
+			});
+			
 		});
 	}else{
 		res.redirect('back');

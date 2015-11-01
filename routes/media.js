@@ -22,6 +22,16 @@ var fileExists = function(filePath){
     }
 };
 
+var getImageName = function(img){
+	var name = img.split('-');
+	name.shift();
+	name = name.join('');
+	name = name.split('.');
+	name.pop();
+	name = name.join('');
+	return name;
+};
+
 var upload = multer({ storage: storage });
 
 router.use(logged);
@@ -66,19 +76,12 @@ router.get('/:img',function(req, res){
 	
 	var img = req.params.img,
 		path = './public/uploads/' + img,
-		isFile = fileExists(path),
-		name = img.split('-'), 
+		isFile = fileExists(path), 
 		imageData = {
 			image:img
 		};
-
-	name.shift();
-	name = name.join('');
-	name = name.split('.');
-	name.pop();
-	name.join('');
 	
-	imageData.name = name;	
+	imageData.name = getImageName(img);	
 	
 	if(!isFile){
 		return res.redirect('back');
@@ -128,9 +131,15 @@ router.post('/',upload.single('newImage'),function(req, res){
 			.resize(Number(width),Number(height))
 			.rotate(Number( req.body.rotate ), 'white')
 			.writeFile(path, function(err, image){
-
+			
 				if(err)console.log(err);
-				if(req.body.name){
+				
+				if(req.file){
+					var socket = req.app.get('socket');
+					socket.emit('new','images');
+				}
+			
+				if(req.body.name  && req.body.name !== getImageName(img)){
 					fs.renameSync(path,newPath);
 					res.redirect('/app/media/'+newImageName);
 				}else{
@@ -149,6 +158,8 @@ router.get('/delete/:img',function(req, res){
 		path = './public/uploads/' + img;
 	
 	fs.unlink(path,function(){
+		var socket = req.app.get('socket');
+		socket.emit('delete','images');
 		res.redirect('/app/media');
 	});
 	

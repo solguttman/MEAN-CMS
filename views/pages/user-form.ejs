@@ -5,17 +5,16 @@
 </head>
 
 	<% include ../partials/header %>
-
 	
 	
-	<form  action="/app/users/<%= user._id ? 'update' : 'new' %>" method="post" enctype="multipart/form-data">
+	<form  action="/app/users/<%= user._id ? 'update' : 'new' %>" method="post">
 		
 		<h1 class="page-header">
 			<%= title %>
 		</h1>
 		
 		<input type="hidden" name="id" value="<%= user._id %>">
-		<input type="hidden" name="profileName" value="<%= user.profile %>">
+		<input type="hidden" id="userProfileValue" name="profile" value="<%= user.profile %>">
 		
 		<div class="container-fluid col-md-10">
 			<div class="row">
@@ -55,10 +54,6 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<label for=""><%= user.profile ? 'Change' : 'User' %> Profile</label>
-					<input type="file" name="profile" class="form-control" placeholder="Profile">
-				</div>
-				<div class="col-md-4">
 					<label for="">Username</label>
 					<input type="text" name="username" class="form-control" placeholder="Username" value="<%= user.username %>">
 				</div>
@@ -69,9 +64,13 @@
 			</div>
 		</div>
 		<div class="container-fluid col-md-2">
-			<% if(user.profile){ %>
-				<img src="/uploads/<%= user.profile %>"  class="img-responsive img-thumbnail">
-			<% } %>
+			<label for=""><%= user.profile ? 'Change' : 'User' %> Profile</label>
+			<br>
+			<a href="/app/media?layer=true" class="image-thumbnail" data-toggle="modal" data-target="#media" data-user>
+				<% if(user.profile){ %>
+					<img src="<%= user.profile %>" id="user-thumbnail"  class="img-responsive img-thumbnail">
+				<% } %>
+			</a>
 		</div>
 		<div class="row">
 			<div class="col-md-5">

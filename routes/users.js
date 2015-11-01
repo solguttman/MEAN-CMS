@@ -69,6 +69,8 @@ router.get('/delete/:id',function(req, res){
 	var id = req.params.id;
 	if(mongojs.ObjectId.isValid(id)){
 		db.users.remove({_id:mongojs.ObjectId(id)},function(err,doc){
+			var socket = req.app.get('socket');
+			socket.emit('delete','users');
 			res.redirect('back');
 		});
 	}else{
@@ -76,20 +78,20 @@ router.get('/delete/:id',function(req, res){
 	}
 });
 
-router.post('/new', upload.single('profile'),function(req, res){
+router.post('/new',function(req, res){
 	var user = req.body;
-		user.profile = req.file !== undefined ? req.file.filename : '';
 		user.password = hash(user.password);
 	
 	db.users.insert(user,function(){
+		var socket = req.app.get('socket');
+		socket.emit('new','users');
 		res.redirect('/app');
 	});
 });
 
-router.post('/update', upload.single('profile'),function(req,res){
+router.post('/update',function(req,res){
 	var id = req.body.id,
 		user = req.body;
-		user.profile = req.file !== undefined ? req.file.filename : req.body.profileName;
 	
 	if(user.password !== ''){
 		user.password = hash(user.password);

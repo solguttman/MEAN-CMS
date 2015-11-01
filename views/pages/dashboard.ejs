@@ -13,7 +13,7 @@
 		</h1>
 		<div class="col-xs-12 col-sm-6 col-md-3 placeholder text-center">
 			<div class="chart">
-				<div class="percentage" data-percent="<%= totalUsers %>">
+				<div id="users" class="percentage" data-percent="<%= totalUsers %>">
 					<div class="chart-label">
 						<span></span><sup></sup>
 						<div class="chart-label">Users</div>
@@ -24,7 +24,7 @@
 		
 		<div class="col-xs-12 col-sm-6 col-md-3 placeholder text-center">
 			<div class="chart">
-				<div class="percentage" data-percent="<%= totalImages %>">
+				<div id="images" class="percentage" data-percent="<%= totalImages %>">
 					<div class="chart-label">
 						<span></span><sup></sup>
 						<div class="chart-label">Images</div>
@@ -36,7 +36,7 @@
 		<% pages.forEach(function(page){ %>
 			<div class="col-xs-12 col-sm-6 col-md-3 placeholder text-center">
 				<div class="chart">
-					<div class="percentage" data-percent="<%= page.total %>">
+					<div id="<%= page._id %>" class="percentage" data-percent="<%= page.total %>">
 						<div class="chart-label">
 							<span></span><sup></sup>
 							<div class="chart-label"><%= page._id %> <%= page.total > 1 ? "'s" : '' %></div>
@@ -52,7 +52,7 @@
 
 
 	<% include ../partials/footer %>
-	<script src="http://rendro.github.io/easy-pie-chart/javascripts/jquery.easy-pie-chart.js"></script>
-    
+	<script src="/js/libs/jquery.easy-pie-chart-min-.js"></script>
+	
 </body>
 </html>
