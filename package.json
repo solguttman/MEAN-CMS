@@ -1,0 +1,20 @@
+{
+	"name": "MEAN-CMS",
+	"version": "0.0.0",
+	"private": true,
+	"dependencies": {
+		"express": "*",
+		"body-parser": "*",
+		"express-session": "*",
+		"connect-mongo": "*",
+		"ejs": "*",
+		"bcrypt-nodejs" : "*",
+		"express-flash":"*",
+		"connect-mongo":"*",
+		"socket.io":"*",
+		"mongojs":"*",
+		"html-escape":"*",
+		"multer":"*",
+		"lwip":"*"
+	}
+}
