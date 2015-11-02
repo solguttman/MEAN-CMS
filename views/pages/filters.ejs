@@ -10,10 +10,14 @@
 			
 		<h1 class="page-header">
 			Add Filters 
+			<a href="/app/filters/new" class="pull-right btn btn-primary btn-lg">
+				<span class="glyphicon glyphicon-edit"></span>
+				Manage Filters
+			</a>
 		</h1>
 		<% filters.forEach(function(filter){ %>
-			<div class="col-md-4">
-				<div class="col-md-8">
+			<div class="col-md-3 filter-list">
+				<div class="row">
 					<h3><%= filter.niceName %></h3>
 					<form action="/app/filters" method="post" class="form-inline">
 						<input type="hidden" name="type" value="<%= filter.name %>">
@@ -25,17 +29,18 @@
 						</div>
 					</form>
 				</div>
-				<div class="row"></div>
 				<br>
-				<div class="table-responsive col-md-8">
-					<table class="table table-striped">
-					<% filter.list.forEach(function(type){ %>
-						<tr>
-							<td><%= type.name %></td>
-							<td><a href="/app/filters/delete/<%= filter.name %>/<%= type.name %>" class="pull-right"><span class="glyphicon glyphicon-trash"></span></a></td>
-						</tr>	
-					<% }) %>
-					</table>	
+				<div class="row">
+					<div class="table-responsive filter-list-table">
+						<table class="table table-striped">
+						<% filter.list.forEach(function(type){ %>
+							<tr>
+								<td><%= type.name %></td>
+								<td><a href="/app/filters/delete/<%= filter.name %>/<%= type.name %>" class="pull-right"><span class="glyphicon glyphicon-trash"></span></a></td>
+							</tr>	
+						<% }) %>
+						</table>	
+					</div>
 				</div>
 			</div>	
 		<% }) %>

@@ -27,7 +27,7 @@ router.post('/',function(req,res){
 	},function(err,doc){
 		
 		if(doc){
-			
+		
 			if(isValidPassword(doc,password)){
 				
 				db.users.findAndModify({

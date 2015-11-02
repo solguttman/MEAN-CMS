@@ -71,6 +71,14 @@ nav.sidebar, .main{
 	border-radius: 0;
     padding: 0 40px;
 }
+.filter-list{
+	border: 1px solid #ccc;
+}
+
+.filter-list .filter-list-table{
+	height:200px;
+	overflow:auto;
+}
 
 @media (min-width: 992px){
 	.modal-lg{

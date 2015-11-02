@@ -36,7 +36,7 @@ $(document).ready(function(){
 	
 	try{
 		
-		socket = io.connect('http://104.236.10.215/');
+		socket = io.connect('/');
 	
 		socket.on('new',function(data){
 			var $id = $('#' + data),
