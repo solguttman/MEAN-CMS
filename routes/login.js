@@ -6,8 +6,12 @@ var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('CMS',['users']);
 
+var hash = function(password){
+	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+};
+
 var isValidPassword = function(user, password){
-        return bCrypt.compareSync(password, user.password);
+    return bCrypt.compareSync(password, user.password);
 };
 
 router.get('/',function(req, res){
@@ -55,7 +59,6 @@ router.post('/',function(req,res){
 });
 
 router.get('/logout',function(req, res){
-	
 	db.users.findAndModify({
 		query:{_id:mongojs.ObjectId(req.session.user._id)},
 		update:{$set:{logged:''}},

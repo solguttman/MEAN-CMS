@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-    secret: "34731430728456089243",
+    secret: "shhhhhhhh",
 	store: new MongoStore({db: 'CMS'})
 }));
 
