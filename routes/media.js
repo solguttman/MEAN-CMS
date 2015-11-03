@@ -138,13 +138,20 @@ router.post('/',upload.single('newImage'),function(req, res){
 					var socket = req.app.get('socket');
 					socket.emit('new','images');
 				}
-			
-				if(req.body.name  && req.body.name !== getImageName(img)){
-					fs.renameSync(path,newPath);
-					res.redirect('/app/media/'+newImageName);
+				if(req.body.isLayer){
+					if(req.body.name  && req.body.name !== getImageName(img)){
+						fs.renameSync(path,newPath);
+					}
+					res.redirect(req.headers.referer);
 				}else{
-					res.redirect('/app/media/'+img);
+					if(req.body.name  && req.body.name !== getImageName(img)){
+						fs.renameSync(path,newPath);
+						res.redirect('/app/media/'+newImageName);
+					}else{
+						res.redirect('/app/media/'+img);
+					}
 				}
+				
                  
 			});
 

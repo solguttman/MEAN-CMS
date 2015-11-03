@@ -7,7 +7,7 @@ var socket,
 			document.getElementById('userProfileValue').value = image;
 			document.getElementById('user-thumbnail').src = image;
 			
-		}else if(oopener.hasAttribute('data-page')){
+		}else if(opener.hasAttribute('data-page')){
 			
 		}else{
 			if(typeof CKEDITOR !== 'undefined'){		
