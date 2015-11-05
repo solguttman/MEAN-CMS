@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 var bCrypt = require('bcrypt-nodejs');
-var logged = require('../models/isLogged');
 var multer  = require('multer');
 
 var storage = multer.diskStorage({
@@ -23,7 +22,6 @@ var hash = function(password){
 	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 };
 
-router.use(logged);
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 	db.users.find(function (err, docs) {

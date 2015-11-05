@@ -3,7 +3,6 @@ var fs = require('fs');
 var escape = require("html-escape");
 var router = express.Router();
 var mongojs = require('mongojs');
-var logged = require('../models/isLogged');
 
 var db = mongojs('CMS',['pages']);
 var allKeys = function(pages){
@@ -17,9 +16,6 @@ var allKeys = function(pages){
 	});
 	return keys;
 };
-
-
-router.use(logged);
 
 router.get('/', function(req, res, next) {
 			

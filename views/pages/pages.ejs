@@ -48,13 +48,9 @@
 						</a>
 					</td>
 					<td class="pull-right">
-						<a href="/app/pages/edit/<%= page._id %>?type=<%= type %>">
-							<span class="glyphicon glyphicon-edit"></span>
-						</a>
-						&nbsp
-						<a href="/app/pages/delete/<%= page._id %>?type=<%= type %>">
-							<span class="glyphicon glyphicon-trash"></span>
-						</a>
+						<a href="/app/pages/edit/<%= page._id %>?type=<%= type %>" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+						&nbsp;
+						<a href="/app/pages/delete/<%= page._id %>?type=<%= type %>" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
 					</td>
 				</tr>
 

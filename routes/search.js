@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var logged = require('../models/isLogged');
+var async = require("async");
 
 var db = mongojs('CMS',['users','pages','posts']);
-
-router.use(logged);
 
 router.get('/',function(req,res){
 	res.redirect( 'back' );
@@ -17,39 +15,47 @@ router.post('/',function(req,res){
 
 router.get('/:term', function(req, res, next) {
 	var term = req.params.term,
-		results = [];
-	
-	
- 	db.users.find({
-		$or:[
-			{'username': new RegExp( term , 'i' )}
-		]
-	},function(err,users){
-		
-		users.forEach(function(user){
-			results.push(user);
-		});
-		
-		db.pages.find({
-			$or:[
-				{'name': new RegExp( term , 'i' )},
-				{'slug': new RegExp( term , 'i' )}
-			]
-		},function(err,pages){
-			
-			pages.forEach(function(page){
-				results.push(page);
-			});
-			
+		results = [],
+		searchUsers = function(callback){
+			db.users.find({
 				
-			res.render('pages/search', {
-				searchTerm:term,
-				results:results
+				$or:[
+					{'username': new RegExp( term , 'i' )}
+				]
+				
+			},function(err,users){
+				if(err) return callback(err);
+				users.forEach(function(user){
+					results.push(user);
+				});
+				callback();
 			});
-			
+		},
+		searchPages = function(callback){
+			db.pages.find({
+				
+				$or:[
+					{'name': new RegExp( term , 'i' )},
+					{'slug': new RegExp( term , 'i' )}
+				]
+				
+			},function(err,pages){
+				if(err) return callback(err);
+				pages.forEach(function(page){
+					results.push(page);
+				});
+				callback();
+			});
+		};
+	
+	async.parallel([ searchUsers, searchPages ], function(err) { 
+        if (err) return next(err); 
+        res.render('pages/search', {
+			searchTerm:term,
+			results:results
 		});
-		
-	}); 
+    });
+	
 	
 });
 

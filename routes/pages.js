@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var logged = require('../models/isLogged');
 
 var db = mongojs('CMS',['pages','filters']);
 
@@ -18,8 +17,6 @@ var isActiveDate = function(page){
 		return  true;	
 	}
 };
-
-router.use(logged);
 
 router.use(function(req,res,next){
 	global.type = req.query.type || req.body.type;

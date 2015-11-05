@@ -1,0 +1,33 @@
+<form action="/app/settings/filter" method="post" name="filter">
+	<input type="hidden" id="pageIcon" name="pageIcon">
+	<div class="row">
+		<div class="col-md-4">
+			<label for="">Filter Display Name</label>
+			<input type="text" name="niceName" class="form-control">
+		</div>
+		<div class="col-md-4">
+			<label for="">Filter Name</label>
+			<input type="text" name="name" class="form-control">
+		</div>
+		<div class="col-md-4">
+			<label for="">&nbsp;</label>
+			<input type="submit" class="btn btn-primary form-control" value="Add">
+		</div>
+	</div>
+</form>	
+<br>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<% filters.forEach(function(filter){ %>
+			<tr>
+				<td><%= filter.niceName %></td>
+				<td><%= filter.name %></td>
+				<td class="pull-right">
+					<a class="btn btn-primary btn-sm btn-edit" data-value="<%= JSON.stringify(filter) %>" data-name="filter"><span class="glyphicon glyphicon-edit"></span></a>
+					&nbsp;
+					<a href="/app/settings/deleteFilter/<%= filter.name %>" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+				</td>
+			</tr>	
+		<% }) %>	
+	</table>
+</div>

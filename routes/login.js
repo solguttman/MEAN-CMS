@@ -4,7 +4,7 @@ var bCrypt = require('bcrypt-nodejs');
 var router = express.Router();
 
 var mongojs = require('mongojs');
-var db = mongojs('CMS',['users']);
+var db = mongojs('CMS',['users','pageTypes']);
 
 var hash = function(password){
 	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
@@ -15,7 +15,6 @@ var isValidPassword = function(user, password){
 };
 
 router.get('/',function(req, res){
-	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	res.render('pages/index', {
 		message:req.flash('message'),
 		title: 'Admin Login' 
@@ -39,9 +38,15 @@ router.post('/',function(req,res){
 					update:{$set:{logged:'logged'}},
 					new:true
 				},function(){
-					req.session.logged = true;
-					req.session.user = doc;
-					res.redirect('/app');
+					
+					db.pageTypes.find(function(err,docs){
+						req.session.pageTypes = docs;
+						req.session.logged = true;
+						req.session.user = doc;
+						res.redirect('/app');
+					});
+					
+					
 				});
 				
 				

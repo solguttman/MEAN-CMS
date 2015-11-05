@@ -15,6 +15,10 @@ var socket,
 			}
 		}
 		
+	},
+	addIcon = function(icon){
+		document.getElementById('pageIcon').value = icon;
+		document.getElementById('choosePageIcon').innerHTML = '<span class="'+ icon +'"></span>';
 	};
 
 $(document).ready(function(){
@@ -80,20 +84,30 @@ $(document).ready(function(){
 			var $this = $(this),
 				$modalContant = $('.modal-content'),
 				link = $this.attr('href'),
-				image = $this.find('img').attr('src');
+				image = $this.find('img').attr('src'),
+				icon = $this.data('icon');
 			
 			if(image){
 				addImage(image,modelOpener);
 				return false;
-			}else{
+			}else if(link){
+				
 				$.get(link + '?layer=true',function(data){
 					$modalContant.html(data);
 				});
 
 				return false;
+			}else if(icon){
+				addIcon(icon);
 			}
 
 		});
+	
+	if($('.nav-tabs').length){
+		if(window.location.hash != "") {
+			$('a[href="' + window.location.hash + '"]').click();
+		}
+	}
 	
 });
 

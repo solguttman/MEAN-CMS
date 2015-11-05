@@ -10,11 +10,15 @@ body,html{
 .main{
 	padding: 10px 10px 0 10px;
 }
-.glyphicon{
+.nav .glyphicon{ 
 	font-size:18px;
 }
-.panel{
+.main>.panel{
 	padding: 0 10px 40px 10px;
+}
+.dashboard .panel{
+	margin-bottom: 10px;
+    border-radius: 0;
 }
 .table-responsive .table td{
 	vertical-align:middle;

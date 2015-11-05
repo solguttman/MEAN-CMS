@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+
+	<% include ../partials/header %>
+
+	<h1 class="page-header">
+		Settings 
+	</h1>
+	 
+	<div class="row">
+		
+		<% if(error.length){ %>
+			<div class="alert alert-danger" role="alert">
+				<%= error %>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+			</div>
+		<% } %>
+		
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+			<li role="presentation"><a href="#pages" aria-controls="pages" role="tab" data-toggle="tab">Pages</a></li>
+			<li role="presentation"><a href="#filters" aria-controls="filters" role="tab" data-toggle="tab">Filters</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade active" id="general">
+				
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="pages">
+				<% include ../pages/pageTypes %>
+			</div>
+			<div role="tabpanel" class="tab-pane fade active" id="filters">
+				<% include ../pages/filterTypes %>
+			</div>
+		</div>
+
+	</div>
+	
+	<!-- Icons -->
+	<div id="icons" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Bootstrap Icons</h4>
+				</div>
+				<div class="modal-body clearfix">
+					<% icons.forEach(function(icon){ %>
+						<a class="col-md-1 text-center thumbnail" data-dismiss="modal" data-icon="<%= icon %>">
+							<span class="<%= icon %>"></span>
+						</a>
+					<% }) %>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<% include ../partials/footer %>
+    <script src="/js/settings.js"></script>
+</body>
+</html>

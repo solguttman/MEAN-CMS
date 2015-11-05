@@ -3,7 +3,6 @@ var fs = require('fs');
 var multer = require('multer');
 var lwip = require("lwip");
 var router = express.Router();
-var logged = require('../models/isLogged');
 
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -33,8 +32,6 @@ var getImageName = function(img){
 };
 
 var upload = multer({ storage: storage });
-
-router.use(logged);
 
 router.use(function(req,res,next){
 	global.layer = req.query.layer;

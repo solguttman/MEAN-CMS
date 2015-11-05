@@ -1,0 +1,40 @@
+<form action="/app/settings/page" method="post" name="page">
+	<input type="hidden" id="pageIcon" name="pageIcon">
+	<div class="row">
+		<div class="col-md-3">
+			<label for="">Page Name</label>
+			<input type="text" name="pageName" class="form-control">
+		</div>
+		<div class="col-md-3">
+			<label for="">Page Type</label>
+			<input type="text" name="pageType" class="form-control">
+		</div>
+		<div class="col-md-3">
+			<label for="">Page Icon</label>
+			<button type="button" id="choosePageIcon" class="form-control" data-toggle="modal" data-target="#icons">Choose Icon</button>
+		</div>
+		<div class="col-md-3">
+			<label for="">&nbsp;</label>
+			<input type="submit" class="btn btn-primary form-control" value="Add">
+		</div>
+	</div>
+</form>	
+<br>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<% pageTypes.forEach(function(page){ %>
+			<tr>
+				<td><%= page.pageName %></td>
+				<td><%= page.pageType %></td>
+				<td><span class="<%= page.pageIcon %>"></span></td>
+				<td class="pull-right">
+					
+					<a class="btn btn-primary btn-sm btn-edit" data-value="<%= JSON.stringify(page) %>" data-name="page"><span class="glyphicon glyphicon-edit"></span></a>
+					&nbsp;
+					<a href="/app/settings/deletePage/<%= page.pageType %>" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+					
+				</td>
+			</tr>	
+		<% }) %>	
+	</table>
+</div>

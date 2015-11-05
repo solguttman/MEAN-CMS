@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var logged = require('../models/isLogged');
 
 var mongojs = require('mongojs');
 var db = mongojs('CMS',['filters']);
@@ -13,8 +12,6 @@ var getAllTypes = function(docs){
 	});
 	return types;
 };	
-
-router.use(logged);
 
 router.get('/',function(req,res){
 	
@@ -42,39 +39,6 @@ router.get('/new',function(req,res){
 			types:getAllTypes(docs)
 		});
 		
-	});
-}); 
-
-router.post('/new',function(req,res){
-	var filter = req.body;
-	filter.list = [];
-	
-	if(filter.name == 'type'){
-		filter.name = '_type';
-	}
-	
-	db.filters.insert(filter,function(err,filter){
-		res.redirect('/app/filters');
-	});
-	
-	
-}); 
-
-router.post('/update',function(req,res){
-	
-	db.filters.findAndModify({
-		query:{name:req.body.name},
-		update:{$set:{niceName:req.body.niceName}},
-		new:true
-	},function(err,doc){
-		res.redirect('/app/filters');
-	});	
-	
-});
-
-router.post('/delete',function(req,res){
-	db.filters.remove({name:req.body.name},function(err,doc){
-		res.redirect('/app/filters');
 	});
 }); 
 
