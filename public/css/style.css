@@ -83,7 +83,20 @@ nav.sidebar, .main{
 	height:200px;
 	overflow:auto;
 }
-
+.filters .panel-heading{
+	padding:0;
+}
+.filters .panel-title{
+	display:block;
+	padding:10px 15px;
+}
+.filters .panel-title:hover{
+	text-decoration:none;
+}
+.filters .panel-title .caret{
+	margin-top: 9px;
+    border-width: 6px;
+}
 @media (min-width: 992px){
 	.modal-lg{
 		width:75%;

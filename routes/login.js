@@ -33,20 +33,11 @@ router.post('/',function(req,res){
 		
 			if(isValidPassword(doc,password)){
 				
-				db.users.findAndModify({
-					query:{_id:mongojs.ObjectId(doc._id)},
-					update:{$set:{logged:'logged'}},
-					new:true
-				},function(){
-					
-					db.pageTypes.find(function(err,docs){
-						req.session.pageTypes = docs;
-						req.session.logged = true;
-						req.session.user = doc;
-						res.redirect('/app');
-					});
-					
-					
+				db.pageTypes.find(function(err,docs){
+					req.session.pageTypes = docs;
+					req.session.logged = true;
+					req.session.user = doc;
+					res.redirect('/app');
 				});
 				
 				
@@ -64,16 +55,9 @@ router.post('/',function(req,res){
 });
 
 router.get('/logout',function(req, res){
-	db.users.findAndModify({
-		query:{_id:mongojs.ObjectId(req.session.user._id)},
-		update:{$set:{logged:''}},
-		new:true
-	},function(){
-		req.session.destroy(function(){
-			res.redirect('/');
-		});
+	req.session.destroy(function(){
+		res.redirect('/');
 	});
-	
 });
 
 module.exports = router;

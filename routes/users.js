@@ -2,18 +2,6 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 var bCrypt = require('bcrypt-nodejs');
-var multer  = require('multer');
-
-var storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, 'public/uploads/');
-	},
-	filename: function (req, file, cb) {
-		cb(null, Date.now() +'-'+ file.originalname);
-	}
-});
-
-var upload = multer({ storage: storage });
 
 var db = mongojs('CMS',['users']);
 
@@ -22,7 +10,6 @@ var hash = function(password){
 	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 };
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
 	db.users.find(function (err, docs) {
 		
@@ -67,9 +54,14 @@ router.get('/delete/:id',function(req, res){
 	var id = req.params.id;
 	if(mongojs.ObjectId.isValid(id)){
 		db.users.remove({_id:mongojs.ObjectId(id)},function(err,doc){
-			var socket = req.app.get('socket');
 			socket.emit('delete','users');
-			res.redirect('back');
+			if(profile._id === id){
+				req.session.destroy(function(){
+					res.redirect('/');
+				});
+			}else{
+				res.redirect('back');
+			}
 		});
 	}else{
 		res.redirect('back');
@@ -80,11 +72,19 @@ router.post('/new',function(req, res){
 	var user = req.body;
 		user.password = hash(user.password);
 	
-	db.users.insert(user,function(){
-		var socket = req.app.get('socket');
-		socket.emit('new','users');
-		res.redirect('/app');
+	db.users.findOne({username:user.username},function(err,doc){
+		if(doc){
+			req.flash('message','Username is takin already');
+			res.redirect('back');
+		}else{
+			db.users.insert(user,function(){
+				socket.emit('new','users');
+				res.redirect('/app');
+			});
+		}
 	});
+	
+	
 });
 
 router.post('/update',function(req,res){
@@ -105,6 +105,7 @@ router.post('/update',function(req,res){
 		req.flash('message', 'Success');
 		res.redirect('back');
 	});	
+	
 });
 
 

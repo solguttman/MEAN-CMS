@@ -40,6 +40,12 @@ router.get('/', function(req, res, next) {
 
 		},function(err,pages){
 			if (err) return callback(err);
+			pages.forEach(function(page,i){
+				var type = pageTypes.find(function(t){ return t.pageType === page._id; });
+				if(!type){
+					pages.splice(i,1);
+				}
+			});
 			locals.pages = pages;
 			callback();
 		});

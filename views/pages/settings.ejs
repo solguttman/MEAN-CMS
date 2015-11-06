@@ -28,13 +28,13 @@
 
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane fade active" id="general">
-				
+			<div role="tabpanel" class="tab-pane active" id="general">
+				<a href="/app/settings/set" class="btn btn-success"><%= global.settings.needLogin ? 'Unlock Admin' : 'Lock Admin' %></a>
 			</div>
-			<div role="tabpanel" class="tab-pane fade" id="pages">
+			<div role="tabpanel" class="tab-pane" id="pages">
 				<% include ../pages/pageTypes %>
 			</div>
-			<div role="tabpanel" class="tab-pane fade active" id="filters">
+			<div role="tabpanel" class="tab-pane" id="filters">
 				<% include ../pages/filterTypes %>
 			</div>
 		</div>

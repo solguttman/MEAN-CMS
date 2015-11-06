@@ -86,7 +86,6 @@ router.get('/:img',function(req, res){
 	
 	lwip.open(path,function(err,image){
 		if(err){
-			console.log(err);
 			return res.redirect('back');
 		} 
 		 
@@ -132,7 +131,6 @@ router.post('/',upload.single('newImage'),function(req, res){
 				if(err)console.log(err);
 				
 				if(req.file){
-					var socket = req.app.get('socket');
 					socket.emit('new','images');
 				}
 				if(req.body.isLayer){
@@ -162,7 +160,6 @@ router.get('/delete/:img',function(req, res){
 		path = './public/uploads/' + img;
 	
 	fs.unlink(path,function(){
-		var socket = req.app.get('socket');
 		socket.emit('delete','images');
 		res.redirect('/app/media');
 	});

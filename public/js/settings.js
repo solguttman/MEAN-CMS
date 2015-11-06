@@ -16,3 +16,7 @@ $(document).on('click','.nav-tabs a',function(){
 	}
 	
 });
+
+if(window.location.hash !== "") {
+	$('a[href="' + window.location.hash + '"]').click();
+}

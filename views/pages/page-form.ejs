@@ -24,11 +24,11 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<label for="">Page Name</label>
+					<label for="" class="text-capitalize"><%= type %> Name</label>
 					<input type="text" name="name" id="pageName" class="form-control" placeholder="Page Name" value="<%= page.name %>">
 				</div>
 				<div class="col-md-6">
-					<label for="">Page Slug</label>
+					<label for="" class="text-capitalize"><%= type %> Slug</label>
 					<input type="text" name="slug" id="pageSlug" class="form-control" placeholder="Page Slug" value="<%= page.slug %>">
 				</div>
 			</div>
@@ -36,7 +36,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="row">
-						<label for="">Page content</label>
+						<label for="" class="text-capitalize"><%= type %> content</label>
 						<div class="col-md-2 pull-right page-add-image">
 							<a href="/app/media?layer=true" type="button" class="btn btn-default form-control" data-toggle="modal" data-target="#media"><span class="glyphicon glyphicon-picture"></span> Add Image</a>
 						</div>
@@ -48,30 +48,20 @@
 			</div>
 		</div>
 		<div class="container-fluid col-md-2">
-			<div class="col-md-12">
-				<label for="">Page Start</label>
-				<input type="date" name="start" class="form-control" placeholder="Page Start" value="<%= page.start %>">
-			</div>
-			<div class="col-md-12">
-				<label for="">Page End</label>
-				<input type="date" name="end" class="form-control" placeholder="Page End" value="<%= page.end %>">
-			</div>
+			<div class="row">
 			
-			<% filters.forEach(function(filter){ %>
-				
-				<div class="row">
-					<div class="col-md-12">
-						<label for=""><%= filter.niceName %></label>
-						<select name="<%= filter.name %>" id="" class="form-control" value="<%= page[filter.name] %>">
-							<option value=""></option>
-							<% filter.list.forEach(function(li){ %>
-							<option value="<%= li.name %>" <%= page[filter.name] === li.name ? 'selected' : '' %>><%= li.name %></option>
-							<% }) %>
-						</select>	
-					</div>
+				<div class="col-md-12">
+					<label for="" class="text-capitalize"><%= type %> Start</label>
+					<input type="date" name="start" class="form-control" placeholder="Page Start" value="<%= page.start %>">
 				</div>
-			
-			<% }) %>
+				<div class="col-md-12">
+					<label for="" class="text-capitalize"><%= type %> End</label>
+					<input type="date" name="end" class="form-control" placeholder="Page End" value="<%= page.end %>">
+				</div>
+				
+			</div>
+			<br>
+			<% include ../pages/page-filter %>
 			
 			<% if(page.slug){ %>
 			<div class="col-md-12">
@@ -96,5 +86,6 @@
 	
 	<% include ../partials/footer %>
     <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
+	<script src="/js/pages.js"></script>
 </body>
 </html>

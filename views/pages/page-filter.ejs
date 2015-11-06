@@ -1,0 +1,44 @@
+<div class="row filters">
+	
+	<% filters.forEach(function(filter){ %>
+
+	<div class="panel-group col-md-12" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_<%= filter.name %>" aria-expanded="false" aria-controls="collapse_<%= filter.name %>" class="panel-title collapsed">
+				<%= filter.niceName %><span class="caret pull-right"></span>
+				</a>
+			</div>
+			<div id="collapse_<%= filter.name %>" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" style="height: 0px;">
+				<div class="panel-body">
+					<input type="hidden" name="<%= filter.name %>">
+					<div class="filters-wrapper">
+						<% filter.list.forEach(function(li,i){ %>
+						<div class="">
+							<label>
+								<% if(page[filter.name]){ %>
+									<input type="checkbox" name="<%= filter.name %>[]" value="<%= li.name %>" <%= page[filter.name].indexOf(li.name) > -1 ? 'checked' : '' %>/>
+								<% } else { %>
+									<input type="checkbox" name="<%= filter.name %>[]" value="<%= li.name %>"/>
+								<% } %>
+								<%= li.name %>
+							</label>
+						</div>
+						<% }) %>
+					</div>
+					<br>
+					<div class="row">
+						<div class="input-group">
+							<input type="text" class="form-control" data-type="<%= filter.name %>" placeholder="Add new...">
+							<span class="input-group-btn">
+								<button class="btn btn-default btn-add-filter" type="button">Add</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% }) %>
+</div>

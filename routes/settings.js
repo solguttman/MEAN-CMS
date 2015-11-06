@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 var router = express.Router();
 
 var mongojs = require('mongojs');
@@ -18,11 +19,18 @@ router.get('/',function(req,res){
 				filters:filters,
 				error : req.flash('error')
 			});
-
 		});
 	
 	});
 	
+}); 
+
+router.get('/set',function(req,res){
+	var referer = req.headers.referer + '#general';
+	settings.needLogin = !settings.needLogin;
+	fs.writeFile('../settings.json', settings,function(){
+		res.redirect(referer);
+	});
 });
 
 router.post('/page',function(req,res){
@@ -40,8 +48,12 @@ router.post('/page',function(req,res){
 	}
 	  
 	db.pageTypes.findOne( {pageType:page.pageType}, function(err,doc){
-		if(doc){
-			db.pageTypes.update({_id:mongojs.ObjectId(doc._id)},{$set:page},function(err,doc){
+		if(doc){	
+			db.pageTypes.findAndModify({
+				query:{_id:mongojs.ObjectId(doc._id)},
+				update:{$set:page},
+				new:true
+			},function(err,doc){
 				res.redirect(referer);
 			});	
 		}else{
@@ -76,7 +88,11 @@ router.post('/filter',function(req, res){
 	db.filters.findOne({name:filter.name},function(err, doc){
 		
 		if(doc){
-			db.filters.update({_id:mongojs.ObjectId(doc._id)},{$set:filter},function(err,doc){
+			db.filters.findAndModify({
+				query:{_id:mongojs.ObjectId(doc._id)},
+				update:{$set:filter},
+				new:true
+			},function(err,doc){
 				res.redirect(referer);
 			});	
 		}else{

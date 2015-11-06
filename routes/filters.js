@@ -26,10 +26,29 @@ router.get('/',function(req,res){
 });
 
 router.post('/',function(req,res){
-	db.filters.update({name:req.body.type},{ $addToSet: { list: {name:req.body.filter} } },function(err,docs){
-		if(err)res.send(err);
-		res.redirect('back');
-	});
+	if(req.body.type !== '' && req.body.filter !== ''){
+		
+		db.filters.findAndModify({
+			query:{name:req.body.type},
+			update:{ $addToSet: { list: {name:req.body.filter} } },
+			new:true
+		},function(err,doc){
+			if(err)res.send(err);
+			if(req.xhr){
+				res.json({ok:doc._id});
+			}else{
+				res.redirect('back');
+			}
+		});	
+		
+	}else{
+		if(req.xhr){
+			res.json({error:true});
+		}else{
+			res.redirect('back');
+		}
+	}
+	
 });
 
 router.get('/new',function(req,res){
