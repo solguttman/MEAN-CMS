@@ -13,7 +13,7 @@ var db = mongojs('CMS',['users','pages']);
 
 
 global.settings = JSON.parse(fs.readFileSync('settings.json'));
-global.socket = require('socket.io').listen(app.listen(80));
+global.socket = require('socket.io').listen(app.listen(8080));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

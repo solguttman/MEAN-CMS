@@ -1,5 +1,6 @@
 var express = require('express');
 var fs = require('fs');
+var path = require('path');
 var multer = require('multer');
 var lwip = require("lwip");
 var router = express.Router();
@@ -31,7 +32,17 @@ var getImageName = function(img){
 	return name;
 };
 
-var upload = multer({ storage: storage });
+var upload = multer({ 
+	storage: storage,
+	fileFilter: function (req, file, cb) {
+    var ext = path.extname(file.originalname),
+		allowedTypes = ['.png','.jpg','.jpeg','.gif'];
+		if (allowedTypes.indexOf(ext) === -1) {
+      	return cb(null, false);
+    }
+    cb(null, true);
+  }
+});
 
 router.use(function(req,res,next){
 	global.layer = req.query.layer;
